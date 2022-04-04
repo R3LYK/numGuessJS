@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Guessing Game</title>
+    <script src="hwork.js" defer></script>
+    <link rel="stylesheet" href="hwork.css" media="screen"/>
+</head>
+<body id="body">
+    <article class="main">
+        <div id="difficultySelect" class="panel">
+            <h1>Guess the number and win!!!</h1>
+            
+
+            <div class="radButtons">
+                <p class="select">Please select a difficulty level:</p>
+                <div class="radVeryEasy">
+                    <input type="radio" name="difficulty" value="100" id="veryEasy" checked>
+                    <label for="veryEasy">Very Easy</label> 
+                </div>
+                <div class="radEasy">
+                    <input type="radio" name="difficulty" value="200" id="easy">
+                    <label for="easy">Easy</label> 
+                </div>
+                <div class="radMedium">
+                    <input type="radio" name="difficulty" value="300" id="medium">
+                    <label for="medium">Medium</label> 
+                </div>
+                <div class="radHard">
+                    <input type="radio" name="difficulty" value="400" id="hard">
+                    <label for="hard">Hard</label> 
+                </div>
+                <div class="radInsane">
+                    <input type="radio" name="difficulty" value="500" id="insane">
+                    <label for="insane">INSANE!!</label> 
+                </div>
+            </div>
+        
+            <button type="button" id="btn">Start the game!!!</button>
+        </div>
+    </article>
+
+    <div id="resultParas" class="panel1" hidden>
+        <p class="chosenDifficulty"></p>
+        <p class="guessLeft"></p>
+        <p class="lastResult"></p>
+        <p class="lowOrHi"></p>
+        <label for="guessField">Enter a guess: </label><input type="text" id="guessField" class="guessField">
+        <input type="submit" value="Submit guess" class="guessSubmit">
+        <p class="guesses"></p>
+    </div>
+
+</body>
+</html>

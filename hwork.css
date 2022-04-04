@@ -1,0 +1,27 @@
+
+
+
+body {
+    background: pink;
+    height: 100vh;
+	-webkit-text-size-adjust: none;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.radButtons {
+    border: 6px solid blue;
+    padding: 10px, 50px, 10px, 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.difficultySelection {
+    box-sizing: border-box;
+    align-items: stretch;
+}
