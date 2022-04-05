@@ -63,6 +63,7 @@ const guessField = document.querySelector('.guessField');
 const guessLeft = document.querySelector('.guessLeft');
 
 let hotColdRange;
+let userGuess;
 
 //checks that user guess falls within acceptable parameters based on "chosenDifficulty"
 //alerts user if if outside accepted bounds
@@ -114,6 +115,7 @@ function checkGuess() {
             console.log(hotColdRange);
             hotCold();
             colorChangeParam();
+            
         }
       }
       guessCount++;
@@ -240,7 +242,7 @@ function isRandomPrime(){
 
 }
 
-function isRandomFib(random){
+function isRandomFib(){
   let n1 = 0, n2 = 1, sequence;
   sequence = n1 + n2;
   while (sequence <= random) {
@@ -320,43 +322,44 @@ function colorChangeParam(){
       hslKey.push(i);
   }
   }
-  hslKey.shift();
-  let zipped = hslKey.map((el, i) => {
-    return [hslKey[i], hslVal[i]];
+  zipper(hslKey, hslVal)
+}
+
+function zipper(key, value){
+  key.shift();
+  let zipped = key.map((el, i) => {
+    return [key[i], value[i]];
   });
 
   let hslObj = Object.fromEntries(zipped);
-
-
-  
   console.log(hslObj);
+  changeBackground(hslObj, userGuess);
+}
+
+
+function changeBackground(arr, num){
+  return num.reduce((a, b) => {
+    let aDiff = Math.abs(a - arr.keys);
+    let bDiff = Math.abs(b - arr.keys);
+
+    if (aDiff == bDiff) {
+      return a > b ? a : b;
+    } else {
+      return bDiff < aDiff ? b : a;
+    }
+  });
+
 }
 
 
 
-let tempHolder = ["hsl(0, 100%, 50%",
-  "hsl(13.06, 100%, 48.63%)",
-  "hsl(19.67, 100%, 47.25%)",
-  "hsl(25.09, 100%, 45.49%)",
-  "hsl(30.13, 100%, 43.73%)",
-  "hsl(35.49, 100%, 41.76%)",
-  "hsl(40.99, 100%, 39.61%)",
-  "hsl(46.25, 100%, 37.65%)",
-  "hsl(52.38, 100%, 35.49%)",
-  "hsl(58.94, 100%, 33.33%)",
-  "hsl(65.83, 100%, 34.31%)",
-  "hsl(71.8, 100%, 35.88%)",
-  "hsl(81.43, 68.14%, 44.31%)",
-  "hsl(92.65, 53.54%, 50.2%)",
-  "hsl(106.61, 53.78%, 55.88%)",
-  "hsl(123.68, 55.34%, 59.61%)",
-  "hsl(138.67, 62.21%, 57.45%)",
-  "hsl(150, 68.7%, 54.9%)",
-  "hsl(159.14, 75.1%, 51.18%)",
-  "hsl(166.58, 100%, 44.71%)",
-  "hsl(170.21, 100%, 45.69%)",
-  "hsl(173.9, 100%, 46.27%)",
-  "hsl(176.75, 100%, 47.06%)",
-  "hsl(179.75, 100%, 47.65%)",
-  "hsl(182.13, 100%, 50.39%)"
-  ]
+
+
+
+
+// hslKey.shift();
+// let zipped = hslKey.map((el, i) => {
+//   return [hslKey[i], hslVal[i]];
+// });
+
+// let hslObj = Object.fromEntries(zipped);
