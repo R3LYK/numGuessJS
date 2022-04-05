@@ -215,6 +215,7 @@ function hotCold(){
     }
 }
 
+//unfinished
 function createHintButton(){
   hintButton = document.createElement('button');
   hintButton.id = 'hint';
@@ -223,6 +224,7 @@ function createHintButton(){
   hintButton.addEventListener('click', getHint);
 }
 
+//unfinished
 function getHint(){
   if (guessCount === 5) {
   let hexHint = random.toString(16);
@@ -238,10 +240,11 @@ function getHint(){
   }
 }
 
+//unfinished
 function isRandomPrime(){
 
 }
-
+//unfinished??
 function isRandomFib(){
   let n1 = 0, n2 = 1, sequence;
   sequence = n1 + n2;
@@ -332,8 +335,9 @@ function zipper(key, value){
   });
 
   let hslObj = Object.fromEntries(zipped);
-  console.log(hslObj);
   changeBackground(hslObj, userGuess);
+  console.log(hslObj);
+  console.log(userGuess); //testing that userGuess is defined...it is not.
 }
 
 
