@@ -69,7 +69,7 @@ let userGuess;
 //alerts user if if outside accepted bounds
 //includes basic game logic and returns/keeps track of user inputs
 function checkGuess() {
-    const userGuess = Number(guessField.value);
+    userGuess = Number(guessField.value);
     console.log(random);
     console.log(acceptedRange);
     //validate user input
@@ -268,6 +268,15 @@ function isRandomFib(){
 // numbers that match parameters.
 //}
 
+class MakeCar {
+  constructor(num = [], val = []) {
+    this.numGuess = num;
+    this.colorVal = val;
+  }
+}
+
+let zipped = {};
+
 function colorChangeParam(){
   let hslVal = ["hsl(0, 100%, 50%",
   "hsl(13.06, 100%, 48.63%)",
@@ -325,40 +334,20 @@ function colorChangeParam(){
       hslKey.push(i);
   }
   }
-  zipper(hslKey, hslVal)
-}
+  hslKey.shift();
+  zipped = hslKey.reduce((obj, key, index) => ({...obj, [key]: hslVal[index]}), {});
+  console.log(Object.keys(zipped));
 
-function zipper(key, value){
-  key.shift();
-  let zipped = key.map((el, i) => {
-    return [key[i], value[i]];
+  var closest = Object.keys(zipped).reduce(function(prev, curr) {
+    return (Math.abs(curr - random) < Math.abs(prev - random) ? curr : prev);
   });
-
-  let hslObj = Object.fromEntries(zipped);
-  changeBackground(hslObj, userGuess);
-  console.log(hslObj);
-  console.log(userGuess); //testing that userGuess is defined...it is not.
+  console.log(closest);
+  //Object.entries(zipped).forEach(([key, value]) => console.log(`${key}: ${value}`));
 }
 
-
-function changeBackground(arr, num){
-  return num.reduce((a, b) => {
-    let aDiff = Math.abs(a - arr.keys);
-    let bDiff = Math.abs(b - arr.keys);
-
-    if (aDiff == bDiff) {
-      return a > b ? a : b;
-    } else {
-      return bDiff < aDiff ? b : a;
-    }
-  });
-
+function test(){
+  Object.entries(obj.forEach(([key, value])))
 }
-
-
-
-
-
 
 
 // hslKey.shift();
