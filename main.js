@@ -5,6 +5,7 @@ let acceptedRange;
 let startButton;
 
 const chosenDifficulty = document.querySelector('.chosenDifficulty');
+const chosenRange = document.querySelector('.chosenRange');
 
 document.getElementById("btn").addEventListener("click", gameDifficulty);
 
@@ -13,6 +14,13 @@ function gameDifficulty(){
   
   document.getElementById("difficultySelect").hidden = true;
   document.getElementById("resultParas").hidden = false;
+  document.getElementById("box-1").hidden = false;
+  document.getElementById("box-2").hidden = false;
+  document.getElementById("box-3").hidden = false;
+  document.getElementById("box-4").hidden = false;
+  document.getElementById("box-5").hidden = false;
+  document.getElementById("box-6").hidden = false;
+  document.getElementById("guessEnter").hidden = false;
 
   const randomVeryEasy = Math.floor(Math.random() * 100 + 1);
   const randomEasy = Math.floor(Math.random() * 200 + 1);
@@ -28,28 +36,33 @@ function gameDifficulty(){
   if (veryEasy.checked==true) {
       random = randomVeryEasy;
       acceptedRange = 'rangeVeryEasy';
-      chosenDifficulty.textContent = 'Choose a number between 1 and 100: ';
+      chosenDifficulty.textContent = "DIFFICULTY: Very Easy";
+      chosenRange.textContent = "RANGE: 1-100"
       console.log(random);
       
   } else if (easy.checked==true) {
       random = randomEasy;
       acceptedRange = 'rangeEasy';
-      chosenDifficulty.textContent = 'Choose a number between 1 and 200: ';
+      chosenDifficulty.textContent = 'DIFFICULTY: EASY';
+      chosenRange.textContent = "RANGE: 1-200"
       console.log(random);
   } else if (medium.checked==true) {
       random = randomMedium;
       acceptedRange = 'rangeMedium';
-      chosenDifficulty.textContent = 'Choose a number between 1 and 300: ';
+      chosenDifficulty.textContent = 'DIFFICULTY: Medium';
+      chosenRange.textContent = "RANGE: 1-300"
       console.log(random);
   } else if (hard.checked==true) {
       random = randomHard;
       acceptedRange = 'rangeHard';
-      chosenDifficulty.textContent = 'Choose a number between 1 and 400: ';
+      chosenDifficulty.textContent = 'DIFFICULTY: Hard';
+      chosenRange.textContent = "RANGE: 1-400"
       console.log(random);
   } else if (insane.checked==true) {
       random  = randomInsane;
       acceptedRange = 'rangeInsane';
-      chosenDifficulty.textContent = 'Choose a number between 1 and 500: ';
+      chosenDifficulty.textContent = 'DIFFICULTY: Insane';
+      chosenRange.textContent = "RANGE: 1-500"
       console.log(random);
   }
 }
@@ -60,7 +73,7 @@ const lastResult = document.querySelector('.lastResult');
 const lowOrHi = document.querySelector('.lowOrHi');
 const guessSubmit = document.querySelector('.guessSubmit');
 const guessField = document.querySelector('.guessField');
-const guessLeft = document.querySelector('.guessLeft');
+const guessesLeft = document.querySelector('.guessesLeft');
 
 let hotColdRange;
 let userGuess;
@@ -85,7 +98,7 @@ function checkGuess() {
       alert('Please choose a number 1 through 500');
     } else {
       if (guessCount === 1) {
-        guesses.textContent = 'Previous guesses: ';
+        guesses.textContent = '';
       }
       if (guessCount === 5) {
         createHintButton();
@@ -102,8 +115,8 @@ function checkGuess() {
           setGameOver();
         } else {
           lastResult.textContent = 'Wrong!';
-          guessLeft.textContent = 'Guess count: ';
-          guessLeft.textContent += guessCount + ' ';
+          guessesLeft.textContent = '';
+          guessesLeft.textContent += 10 - guessCount + ' ';
           lastResult.style.backgroundColor = 'red';
           if(userGuess < random) {
             hotColdRange = random - userGuess;
@@ -142,7 +155,7 @@ function setGameOver() {
 //should also take user back to radio-buttons to choose difficulty
 function resetGame() {
   guessCount = 1;
-  const resetParas = document.querySelectorAll('.panel1 p');
+  const resetParas = document.querySelectorAll('.panel p');
   for (const resetPara of resetParas) {
     resetPara.textContent = '';
     //Attempting to switch back to radio-buttons using the same code that does the reverse
@@ -151,6 +164,13 @@ function resetGame() {
   
   document.getElementById("difficultySelect").hidden = false;
   document.getElementById("resultParas").hidden = true;
+  document.getElementById("box-1").hidden = true;
+  document.getElementById("box-2").hidden = true;
+  document.getElementById("box-3").hidden = true;
+  document.getElementById("box-4").hidden = true;
+  document.getElementById("box-5").hidden = true;
+  document.getElementById("box-6").hidden = true;
+  document.getElementById("guessEnter").hidden = true;
   resetButton.parentNode.removeChild(resetButton);
   guessField.disabled = false;
   guessSubmit.disabled = false;
@@ -168,7 +188,7 @@ var divElem = document.getElementById("body")
 
 function hotCold(){
   let randomResponse;
-  let withinFive = ["You're on FIRE!!!", "How can you stand this heat!?", "How are you not melting?", "So, so close!", "Careful, you're keyboard might melt!", "Just like me, you're incredibly hot!"];
+  let withinFive = ["You're on FIRE!!!", "How can you stand this heat!?", "How are you not melting?", "So, so close!", "Careful, your keyboard might melt!", "Just like me, you're incredibly hot!"];
   let withinTen = ["It's getting hot in here!", "This is tropical island heat!!", "I suggest sun-screen when it's this hot.", "I hope you're dressed for this heat!", "Somebody just cranked the thermostat up!"];
   let withinTwenty = ["It's like a nice spring day.", "Close!", "It's like a mild salsa!", ""];
   let withinThirty = ["within 30 placeholder", "within 30 placeholder 2"];
@@ -219,7 +239,7 @@ function hotCold(){
 function createHintButton(){
   hintButton = document.createElement('button');
   hintButton.id = 'hint';
-  hintButton.textContent = 'HINT!!';
+  hintButton.textContent = 'GET HINT!';
   document.body.appendChild(hintButton);
   hintButton.addEventListener('click', getHint);
 }
@@ -268,17 +288,13 @@ function isRandomFib(){
 // numbers that match parameters.
 //}
 
-class MakeCar {
-  constructor(num = [], val = []) {
-    this.numGuess = num;
-    this.colorVal = val;
-  }
-}
 
 let zipped = {};
 
+//builds object based on user inputs.
+
 function colorChangeParam(){
-  let hslVal = ["hsl(0, 100%, 50%",
+  let hslVal = ["hsl(0, 100%, 50%)",
   "hsl(13.06, 100%, 48.63%)",
   "hsl(19.67, 100%, 47.25%)",
   "hsl(25.09, 100%, 45.49%)",
@@ -303,7 +319,7 @@ function colorChangeParam(){
   "hsl(176.75, 100%, 47.06%)",
   "hsl(179.75, 100%, 47.65%)",
   "hsl(182.13, 100%, 50.39%)"
-  ]
+  ] // hsl values
 
   let hslKey = [];
   let upper;
@@ -334,25 +350,46 @@ function colorChangeParam(){
       hslKey.push(i);
   }
   }
-  hslKey.shift();
-  zipped = hslKey.reduce((obj, key, index) => ({...obj, [key]: hslVal[index]}), {});
-  console.log(Object.keys(zipped));
+  hslKey.shift(); //removes zero value at [0]
+  zipped = hslKey.reduce((obj, key, index) => ({...obj, [key]: hslVal[index]}), {}); //created key/value by combining two arrays
+  closestFunc(diff(userGuess, random), Object.keys(zipped));
 
-  var closest = Object.keys(zipped).reduce(function(prev, curr) {
-    return (Math.abs(curr - random) < Math.abs(prev - random) ? curr : prev);
-  });
-  console.log(closest);
-  //Object.entries(zipped).forEach(([key, value]) => console.log(`${key}: ${value}`));
+  
 }
 
-function test(){
-  Object.entries(obj.forEach(([key, value])))
+//returns difference between 2 numbers (used for random/userGuess to assign color change).
+function diff(a,b){
+  if (a > b) {
+    return a - b;
+  } else {
+    return b - a;
+  }
 }
 
 
-// hslKey.shift();
-// let zipped = hslKey.map((el, i) => {
-//   return [hslKey[i], hslVal[i]];
-// });
+let color;
 
-// let hslObj = Object.fromEntries(zipped);
+//finds closest number in key/value to assign value to color.
+function closestFunc (num, arr) {
+  var curr = arr[0];
+  var diff = Math.abs (num - curr);
+  for (var val = 0; val < arr.length; val++) {
+      var newdiff = Math.abs (num - arr[val]);
+      if (newdiff < diff) {
+          diff = newdiff;
+          curr = arr[val];
+      }
+  }
+  color = (curr - random);
+  console.log(curr);
+  if (typeof zipped[curr] !== "undefined"){
+    color = zipped[curr];
+  }
+  console.log(color);
+  changeBackground();
+}
+
+function changeBackground() {
+  document.body.style.background = color;
+}
+

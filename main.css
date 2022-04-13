@@ -1,27 +1,242 @@
 
-
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
-    background: pink;
-    height: 100vh;
-	-webkit-text-size-adjust: none;
-    
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+ul {
+
+    list-style-type: none;
+}
+
+.navbar {
+    background: steelblue;
+    color: white;
+    height: 50px;
+}
+
+.navbar .logo {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: lightblue;
+}
+
+.navbar .container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    height: 100%;
+}
+
+.navbar ul {
+    display: flex;
+}
+
+.navbar ul li{
+    margin-left: 20%;
+}
+
+#difficultySelect {
+    margin: 0 auto;
+    max-width: 400px;
+    height: 450px;
+    margin-top: 70px;
+    background-color: steelblue;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+#difficultySelect h1 {
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    font-size: 15px;
+    padding-top: 25px;
+    padding-bottom: 45px;
+}
+
+label {
+
+    margin-left: 9px;
 }
 
 
-
-.radButtons {
-    border: 6px solid blue;
-    padding: 10px, 50px, 10px, 10px;
-    justify-content: center;
-    align-items: center;
+#btn {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #000;
+    cursor: pointer;
+    border: 3px solid;
+    border-radius: 15px;
+    padding: 0.25em 0.5em;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+    position: relative;
+    margin-top: 70px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
 
-.difficultySelection {
-    box-sizing: border-box;
-    align-items: stretch;
+#btn {
+  box-shadow: 1px 1px 1px 1px;
+  top: 5px;
+  left: 5px;
+}
+
+@media (min-width: 768px) {
+  #btn {
+    padding: 0.25em 0.75em;
+  }
+}
+
+
+.container p {
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    
+}
+
+#difficultySelect ul {
+    margin: auto;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    width: 40%;
+    line-height: 2.5em;
+    margin-top: 25px;
+    text-align: left;
+    justify-content: left;
+}
+
+/* Second panel when not hidden (the game) */
+
+#resultParas {
+    display: flex;
+    justify-content: space-around;
+}
+
+#resultParas div{
+    font-family: 'Press Start 2P', cursive;
+    flex-basis: 300px;
+    min-height: 150px;
+    border: 6px rgb(0, 0, 0) solid;
+    border-radius: 25px;
+    padding: 10px;
+    background-color: gray;
+    margin: 10px;
+    margin-top: 99px;
+}
+
+#box-1{
+    flex-grow: 1;
+    order: 1;
+}
+
+#box-1 p {
+    padding-top: 3px;
+    text-align: left;
+}
+
+p.chosenRange {
+    margin-top: 35px;
+}
+
+#box-2{
+    flex-grow: 1;
+    order: 3;
+    font-size: 20px;
+}
+
+p.guessesLeft {
+    margin-top: 20px;
+    font-size: 40px;
+}
+
+#box-3{
+    flex-grow: 2;
+    order: 2
+}
+
+p.guesses {
+    margin-top: 35px;
+    text-align: left;
+}
+
+#guessEnter {
+    justify-content: left;
+    margin-top: 55px;
+    font-family: 'Press Start 2P', cursive;
+}
+
+#guessEnter >* {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #000;
+    border: 3px solid;
+    border-radius: 15px;
+    padding: 0.25em 0.5em;
+    position: relative;
+    margin-top: 40px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+#guessEnter > label {
+    border: none;
+}
+
+#cheats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 100px;
+}
+
+#cheats div {
+    font-family: 'Press Start 2P', cursive;
+    flex-basis: 300px;
+    min-height: 150px;
+    border: 6px rgb(0, 0, 0) solid;
+    border-radius: 25px;
+    padding: 10px;
+    background-color: gray;
+    margin: 10px;
+}
+
+#hint {
+    margin: 0 auto;
+    margin-left: 47%;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 25px;
+    margin-top: 55px;
+    font-family: 'Press Start 2P', cursive;
 }
