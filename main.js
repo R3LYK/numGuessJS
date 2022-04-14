@@ -1,13 +1,24 @@
 var random;
 let guessCount = 1;
 let resetButton;
+let hintButton;
 let acceptedRange;
 let startButton;
 
 const chosenDifficulty = document.querySelector('.chosenDifficulty');
 const chosenRange = document.querySelector('.chosenRange');
+const guesses = document.querySelector('.guesses');
+const lastResult = document.querySelector('.lastResult');
+const lowOrHi = document.querySelector('.lowOrHi');
+const guessSubmit = document.querySelector('.guessSubmit');
+const guessField = document.querySelector('.guessField');
+const guessesLeft = document.querySelector('.guessesLeft');
+const check = document.querySelector('.check');
+const xGuesses = document.querySelector('.xGuesses');
 
 document.getElementById("btn").addEventListener("click", gameDifficulty);
+
+body.style.backgroundColor = "rgb(220, 220, 220)";
 
 //allows user to choose game difficulty (radio-buttons)
 function gameDifficulty(){
@@ -37,43 +48,42 @@ function gameDifficulty(){
       random = randomVeryEasy;
       acceptedRange = 'rangeVeryEasy';
       chosenDifficulty.textContent = "DIFFICULTY: Very Easy";
-      chosenRange.textContent = "RANGE: 1-100"
+      chosenRange.textContent = "RANGE: 1-100";
       console.log(random);
       
   } else if (easy.checked==true) {
       random = randomEasy;
       acceptedRange = 'rangeEasy';
       chosenDifficulty.textContent = 'DIFFICULTY: EASY';
-      chosenRange.textContent = "RANGE: 1-200"
+      chosenRange.textContent = "RANGE: 1-200";
       console.log(random);
   } else if (medium.checked==true) {
       random = randomMedium;
       acceptedRange = 'rangeMedium';
       chosenDifficulty.textContent = 'DIFFICULTY: Medium';
-      chosenRange.textContent = "RANGE: 1-300"
+      chosenRange.textContent = "RANGE: 1-300";
       console.log(random);
   } else if (hard.checked==true) {
       random = randomHard;
       acceptedRange = 'rangeHard';
       chosenDifficulty.textContent = 'DIFFICULTY: Hard';
-      chosenRange.textContent = "RANGE: 1-400"
+      chosenRange.textContent = "RANGE: 1-400";
       console.log(random);
   } else if (insane.checked==true) {
       random  = randomInsane;
       acceptedRange = 'rangeInsane';
       chosenDifficulty.textContent = 'DIFFICULTY: Insane';
-      chosenRange.textContent = "RANGE: 1-500"
+      chosenRange.textContent = "RANGE: 1-500";
       console.log(random);
   }
+  setGameStart();
 }
 
-
-const guesses = document.querySelector('.guesses');
-const lastResult = document.querySelector('.lastResult');
-const lowOrHi = document.querySelector('.lowOrHi');
-const guessSubmit = document.querySelector('.guessSubmit');
-const guessField = document.querySelector('.guessField');
-const guessesLeft = document.querySelector('.guessesLeft');
+function setGameStart(){
+  
+  check.textContent = "GUESSES LEFT:";
+  xGuesses.textContent = "PREVIOUS GUESSES:";
+}
 
 let hotColdRange;
 let userGuess;
@@ -82,6 +92,8 @@ let userGuess;
 //alerts user if if outside accepted bounds
 //includes basic game logic and returns/keeps track of user inputs
 function checkGuess() {
+
+    let returnMsg = ['Sorry!!', 'Not quite!!', 'Nope!!']
     userGuess = Number(guessField.value);
     console.log(random);
     console.log(acceptedRange);
@@ -106,7 +118,6 @@ function checkGuess() {
       guesses.textContent += userGuess + ' - ';
         if (userGuess === random) {
           lastResult.textContent = 'Congratulations! You got it right!';
-          lastResult.style.backgroundColor = 'green';
           lowOrHi.textContent = '';
           setGameOver();
         } else if (guessCount === 10) {
@@ -117,7 +128,6 @@ function checkGuess() {
           lastResult.textContent = 'Wrong!';
           guessesLeft.textContent = '';
           guessesLeft.textContent += 10 - guessCount + ' ';
-          lastResult.style.backgroundColor = 'red';
           if(userGuess < random) {
             hotColdRange = random - userGuess;
             console.log(hotColdRange);
@@ -155,11 +165,13 @@ function setGameOver() {
 //should also take user back to radio-buttons to choose difficulty
 function resetGame() {
   guessCount = 1;
-  const resetParas = document.querySelectorAll('.panel p');
+  const resetParas = document.querySelectorAll('.panel-2 p');
   for (const resetPara of resetParas) {
     resetPara.textContent = '';
-    //Attempting to switch back to radio-buttons using the same code that does the reverse
-    //and changing the true/false and passing in "button" in place of "btn"
+  }
+  const resetCons = document.querySelectorAll('.container-2 p');
+  for (const resetCon of resetCons) {
+    resetCon.textContent = '';
   }
   
   document.getElementById("difficultySelect").hidden = false;
@@ -172,19 +184,22 @@ function resetGame() {
   document.getElementById("box-6").hidden = true;
   document.getElementById("guessEnter").hidden = true;
   resetButton.parentNode.removeChild(resetButton);
+  if(hintButton === true){
+    hintButton.parentNode.removeChild(hintButton);
+  }
   guessField.disabled = false;
   guessSubmit.disabled = false;
   guessField.value = '';
   guessField.focus();
   random = null;
-  lastResult.style.backgroundColor = 'white';
+  lastResult.style.backgroundColor = "rgb(220, 220, 220)";
+  body.style.backgroundColor = "rgb(220, 220, 220)";
   
 }
 
 //lets user know whether hot or cold, returns message at random.
 //plan on changing background color different shades of blue and red depending on hotColdRange
 
-var divElem = document.getElementById("body")
 
 function hotCold(){
   let randomResponse;
@@ -231,7 +246,6 @@ function hotCold(){
     } else if (hotColdRange <= 500) {
       randomResponse = withinFiveHun[Math.floor(Math.random()*withinFiveHun.length)];
       lowOrHi.textContent = randomResponse;
-      divElem.style.backgroundColor = "red";
     }
 }
 
@@ -244,26 +258,24 @@ function createHintButton(){
   hintButton.addEventListener('click', getHint);
 }
 
-//unfinished
 function getHint(){
-  if (guessCount === 5) {
-  let hexHint = random.toString(16);
-  alert(hexHint);
-  } else if (guessCount === 6) {
-    isRandomPrime();
-  } else if (guessCount === 7) {
-    isRandomFib();
-  } else if (guessCount === 8) {
-    alert('placeholder8')
-  } else if (guesCount === 9) {
-    alert('placeholder9')
-  }
+  return('Hello there!!!')
 }
+
 
 //unfinished
-function isRandomPrime(){
-
+function isPrime(num) {
+  var sqrtnum=Math.floor(Math.sqrt(num));
+    var prime = num != 1;
+    for(var i=2; i<sqrtnum+1; i++) { // sqrtnum+1
+        if(num % i == 0) {
+            prime = false;
+            break;
+        }
+    }
+    return prime;
 }
+
 //unfinished??
 function isRandomFib(){
   let n1 = 0, n2 = 1, sequence;
