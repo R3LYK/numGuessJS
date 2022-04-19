@@ -15,10 +15,28 @@ const guessField = document.querySelector('.guessField');
 const guessesLeft = document.querySelector('.guessesLeft');
 const check = document.querySelector('.check');
 const xGuesses = document.querySelector('.xGuesses');
+const hintBox = document.querySelector('.hintBox');
+const resetGameButton = document.querySelector('.resetGameButton');
+const box4msg = document.querySelector('.message');
+const box5msg = document.querySelector('.hint');
+const box6msg = document.querySelector('.rightWrong');
+const guessLabel = document.querySelector('#guessEnter label');
 
+
+
+
+
+//============GAME LOGIC & Menu's ============//
+
+body.style.backgroundColor = "rgb(220, 220, 220)"; // sets initial background color (before change)
 document.getElementById("btn").addEventListener("click", gameDifficulty);
 
-body.style.backgroundColor = "rgb(220, 220, 220)";
+let checkResetButton = () => {
+  if(checker === true){
+    hintButton.parentNode.removeChild(hintButton);
+    checker = false;
+  }
+}
 
 //allows user to choose game difficulty (radio-buttons)
 function gameDifficulty(){
@@ -49,54 +67,69 @@ function gameDifficulty(){
       acceptedRange = 'rangeVeryEasy';
       chosenDifficulty.textContent = "DIFFICULTY: Very Easy";
       chosenRange.textContent = "RANGE: 1-100";
-      console.log(random);
-      
   } else if (easy.checked==true) {
       random = randomEasy;
       acceptedRange = 'rangeEasy';
       chosenDifficulty.textContent = 'DIFFICULTY: EASY';
       chosenRange.textContent = "RANGE: 1-200";
-      console.log(random);
   } else if (medium.checked==true) {
       random = randomMedium;
       acceptedRange = 'rangeMedium';
       chosenDifficulty.textContent = 'DIFFICULTY: Medium';
       chosenRange.textContent = "RANGE: 1-300";
-      console.log(random);
   } else if (hard.checked==true) {
       random = randomHard;
       acceptedRange = 'rangeHard';
       chosenDifficulty.textContent = 'DIFFICULTY: Hard';
       chosenRange.textContent = "RANGE: 1-400";
-      console.log(random);
   } else if (insane.checked==true) {
       random  = randomInsane;
       acceptedRange = 'rangeInsane';
       chosenDifficulty.textContent = 'DIFFICULTY: Insane';
       chosenRange.textContent = "RANGE: 1-500";
-      console.log(random);
   }
   setGameStart();
+  console.log("random = " + random);
 }
+const box1 = document.querySelector("#box-1");
+const box2 = document.querySelector("#box-2");
+const box3 = document.querySelector("#box-3");
+const box4 = document.querySelector("#box-4");
+const box5 = document.querySelector("#box-5");
+const box6 = document.querySelector("#box-6");
 
 function setGameStart(){
   
   check.textContent = "GUESSES LEFT:";
   xGuesses.textContent = "PREVIOUS GUESSES:";
+  box4msg.textContent = "MSG:";
+  box5msg.textContent = "HINT:";
+  box6msg.textContent = "MSG:";
+
+  box1.style.filter = 'blur(0px)';
+  box2.style.filter = 'blur(0px)';
+  box3.style.filter = 'blur(0px)';
+  box4.style.filter = 'blur(0px)';
+  box5.style.filter = 'blur(0px)';
+  box6.style.filter = 'blur(0px)';
+  guessField.style.filter = 'blur(0px)';
+  guessSubmit.style.filter = 'blur(0px)';
+  guessLabel.style.filter = 'blur(0px)';
 }
 
 let hotColdRange;
 let userGuess;
+let guessArr = [];
+
 
 //checks that user guess falls within acceptable parameters based on "chosenDifficulty"
 //alerts user if if outside accepted bounds
 //includes basic game logic and returns/keeps track of user inputs
 function checkGuess() {
-
+    
     let returnMsg = ['Sorry!!', 'Not quite!!', 'Nope!!']
     userGuess = Number(guessField.value);
-    console.log(random);
-    console.log(acceptedRange);
+    console.log("accepted range =" + acceptedRange);
     //validate user input
     if (acceptedRange === 'rangeVeryEasy' && (userGuess < 1 || userGuess > 100)) {
       alert('Please choose a number 1 through 100');
@@ -112,7 +145,7 @@ function checkGuess() {
       if (guessCount === 1) {
         guesses.textContent = '';
       }
-      if (guessCount === 5) {
+      if (guessCount >= 5 && checker === false) {
         createHintButton();
       }
       guesses.textContent += userGuess + ' - ';
@@ -130,89 +163,116 @@ function checkGuess() {
           guessesLeft.textContent += 10 - guessCount + ' ';
           if(userGuess < random) {
             hotColdRange = random - userGuess;
-            console.log(hotColdRange);
             hotCold();
             colorChangeParam();
           } else if(userGuess > random) {
             hotColdRange = userGuess - random;
-            console.log(hotColdRange);
             hotCold();
             colorChangeParam();
             
         }
       }
-      guessCount++;
-      guessField.value = '';
+    guessCount++;
+    guessField.value = '';
     guessField.focus();
+    console.log("hotColdRange = " + hotColdRange);
+    console.log("Guess count = " + guessCount);
+    guessArr.push(userGuess);
+    console.log("Guess array = " + guessArr)
+
     }
     
   }
   
 guessSubmit.addEventListener('click', checkGuess);
+resetGameButton.addEventListener('click', confirmReset);
+
 //sets game status to gameover, removing the ability to interact with game input's
-//creates reset button "button"
 function setGameOver() {
   guessField.disabled = true;
   guessSubmit.disabled = true;
-  resetButton = document.createElement('button');
-  resetButton.id = 'button';
-  resetButton.textContent = 'Start new game';
-  document.body.appendChild(resetButton);
-  resetButton.addEventListener('click', resetGame);
+  setGameOver.called = true;
+  resetGameButton.value = 'New Game';
+  resetGameButton.style.backgroundColor = 'lightgreen';
+  box1.style.filter = 'blur(2px)';
+  box2.style.filter = 'blur(2px)';
+  box3.style.filter = 'blur(2px)';
+  box4.style.filter = 'blur(2px)';
+  box5.style.filter = 'blur(2px)';
+  box6.style.filter = 'blur(2px)';
+  guessField.style.filter = 'blur(2px)';
+  guessSubmit.style.filter = 'blur(2px)';
+  guessLabel.style.filter = 'blur(2px)';
+  checkResetButton();
+  
 }
 
-//clears everything returned while playing the game
+
+//verifies that user wants to reset game (unless setGameOver === true)
+function confirmReset() {
+  if(setGameOver.called){
+    resetGame();
+  } else {
+    let warning = "Are you sure you want to reset the game?"
+    if(confirm(warning) == true){
+      resetGame();
+    } else {
+      alert("Be careful where you click!!")
+    }
+  }
+}
+
+//resets everything returned while playing the game
 //should also take user back to radio-buttons to choose difficulty
 function resetGame() {
-  guessCount = 1;
-  const resetParas = document.querySelectorAll('.panel-2 p');
-  for (const resetPara of resetParas) {
-    resetPara.textContent = '';
-  }
-  const resetCons = document.querySelectorAll('.container-2 p');
-  for (const resetCon of resetCons) {
-    resetCon.textContent = '';
-  }
-  
-  document.getElementById("difficultySelect").hidden = false;
-  document.getElementById("resultParas").hidden = true;
-  document.getElementById("box-1").hidden = true;
-  document.getElementById("box-2").hidden = true;
-  document.getElementById("box-3").hidden = true;
-  document.getElementById("box-4").hidden = true;
-  document.getElementById("box-5").hidden = true;
-  document.getElementById("box-6").hidden = true;
-  document.getElementById("guessEnter").hidden = true;
-  resetButton.parentNode.removeChild(resetButton);
-  if(hintButton === true){
-    hintButton.parentNode.removeChild(hintButton);
-  }
-  guessField.disabled = false;
-  guessSubmit.disabled = false;
-  guessField.value = '';
-  guessField.focus();
-  random = null;
-  lastResult.style.backgroundColor = "rgb(220, 220, 220)";
-  body.style.backgroundColor = "rgb(220, 220, 220)";
-  
+    guessCount = 1;
+    const resetParas = document.querySelectorAll('.panel-2 p'); //clears in-game top display
+    for (const resetPara of resetParas) {
+      resetPara.textContent = '';
+    }
+    const resetCons = document.querySelectorAll('.container-2 p'); //clears in-game bottom display
+    for (const resetCon of resetCons) {
+      resetCon.textContent = '';
+    }
+    checkResetButton();
+    document.getElementById("difficultySelect").hidden = false;
+    document.getElementById("resultParas").hidden = true;
+    document.getElementById("box-1").hidden = true;
+    document.getElementById("box-2").hidden = true;
+    document.getElementById("box-3").hidden = true;
+    document.getElementById("box-4").hidden = true;
+    document.getElementById("box-5").hidden = true;
+    document.getElementById("box-6").hidden = true;
+    document.getElementById("guessEnter").hidden = true;
+    // resetButton.parentNode.removeChild(resetButton);
+    guessField.disabled = false;
+    guessSubmit.disabled = false;
+    guessField.value = '';
+    guessField.focus();
+    random = null;
+    lastResult.style.backgroundColor = "rgb(220, 220, 220)";
+    body.style.backgroundColor = "rgb(220, 220, 220)";
+    resetGameButton.value = 'Reset';
+    guessArr = [];
+    resetGameButton.style.backgroundColor = "white";
+    console.clear(); // using for testing purposes.
+
 }
 
 //lets user know whether hot or cold, returns message at random.
-//plan on changing background color different shades of blue and red depending on hotColdRange
-
 
 function hotCold(){
   let randomResponse;
   let withinFive = ["You're on FIRE!!!", "How can you stand this heat!?", "How are you not melting?", "So, so close!", "Careful, your keyboard might melt!", "Just like me, you're incredibly hot!"];
-  let withinTen = ["It's getting hot in here!", "This is tropical island heat!!", "I suggest sun-screen when it's this hot.", "I hope you're dressed for this heat!", "Somebody just cranked the thermostat up!"];
-  let withinTwenty = ["It's like a nice spring day.", "Close!", "It's like a mild salsa!", ""];
-  let withinThirty = ["within 30 placeholder", "within 30 placeholder 2"];
-  let withinFourty = ["within 40 placeholder", "within 40 placeholder 2"];
-  let withinHundred = ["within 100 placeholder", "within 100 placeholder 2"];
-  let withinTwoHun = ["within 200 placeholder", "within 200 placeholder 2"];
-  let withinThreeHun = ["within 300 placeholder", "within 300 placeholder 2"];
-  let withinFourHun = ["within 400 placeholder", "within 400 placeholder 2"];
-  let withinFiveHun = ["within 500 placeholder", "within 500 placeholder 2"];
+  let withinTen = ["It's getting hot in here, but clothes are still recommended!", "This is tropical island heat!!", "I suggest sun-screen when it's this hot.", "I hope you're dressed for this heat!", "Somebody just cranked the thermostat up!"];
+  let withinTwenty = ["It's like a nice spring day.", "Close!", "Mild salsa!", "Horeshoes and hand-grenades...", "The background color tells me you're close."];
+  let withinThirty = ["NO, NO, NO!!!", "I don't understand why this is so hard for you.", "I know what the number is, and this isn't it.", "Wrong. Again..."];
+  let withinFourty = ["Wrong!! Do yo think this is a game!!??", "Nope, the number is actually [invalid]", "You're still pretty far off"];
+  let withinHundred = ["I bet you're going to need to use the 'hint' button.", "You're around 32 leagues away.", "You could be further off, but not much further."];
+  let withinTwoHun = ["Still pretty far off", "Nope. Not close.", "Don't be discouraged...unless this is the 2nd time you've gotten this message.", "Just makes you want to scream doesn't it? Oh, it's just me?"];
+  let withinThreeHun = ["I'm running out of quips...", "This isn't hard, I know what the number is.", "NO. NO. NO!!", "Pathetic attempt!"];
+  let withinFourHun = ["You're way, way off.", "Yeah, no. Try again.", "This is embarasing, but not for me.", "At least your tried. You did TRY didn't you?"];
+  let withinFiveHun = ["From here, you're going to need binoculars", "NOT. EVEN. CLOSE!!", "You might not be very good at this...", "You could be further away, but not much.", "You could always cheat..."];
 
     //need to see if there is a better way to do this
     //there has to be a more effecient way to do this.
@@ -249,21 +309,45 @@ function hotCold(){
     }
 }
 
-//unfinished
+//======HINT FUNCTIONS===========//
+
+let checker = false;
+
 function createHintButton(){
   hintButton = document.createElement('button');
   hintButton.id = 'hint';
   hintButton.textContent = 'GET HINT!';
   document.body.appendChild(hintButton);
   hintButton.addEventListener('click', getHint);
+  console.log("guessCount = " + guessCount);
+  checker = createHintButton.called = true;
 }
 
+// function createResetButton(){
+//   resetButton = document.createElement('button');
+//   restButton.id = 'reset';
+//   resetButton.textContent = 'Reset Game!';
+//   document.body.appendChile(resetButton);
+//   hintButton.addEventListener('click', resetGame);
+// }
+
+//working
 function getHint(){
-  return('Hello there!!!')
+  if(guessCount === 6){
+    isPrime(random);
+  } else if(guessCount === 7){
+    if(isFibonacci(random) === true){
+      hintBox.textContent = "The number is part of the Fibonacci Sequence (starting with 1)."
+    } else {
+      hintBox.textContent = "The number is not part of the Fibonacci Sequence (starting with 1)."
+    }
+  } else if(guessCount === 8){
+    isEven(random);
+  } else { return false; }
+  checkResetButton();
 }
 
-
-//unfinished
+//working
 function isPrime(num) {
   var sqrtnum=Math.floor(Math.sqrt(num));
     var prime = num != 1;
@@ -273,26 +357,36 @@ function isPrime(num) {
             break;
         }
     }
-    return prime;
+    if(prime === true){
+      hintBox.textContent = "The number is prime."
+    } else {
+      hintBox.textContent = "The number is not prime."
+    }
 }
 
-//unfinished??
-function isRandomFib(){
-  let n1 = 0, n2 = 1, sequence;
-  sequence = n1 + n2;
-  while (sequence <= random) {
-      console.log(sequence);
+// Returns true if n is a Fibonacci Number, else false
+function isFibonacci(num)
+{
+ 
+    // n is Fibonacci if one of 5*n*n + 4 or 5*n*n - 4 or both
+    // is a perfect square
+    return isPerfectSquare(5 * num * num + 4) ||
+           isPerfectSquare(5 * num * num - 4);
+}
+ 
+function isPerfectSquare(x)
+{
+    let s = parseInt(Math.sqrt(x));
+    return (s * s == x);
+}
 
-      n1 = n2;
-      n2 = nextTerm;
-      nextTerm = [n1 + n2];
-      if (nextTerm.includes(random))
-        alert('The number is in part of the Fibonacci sequence (starting at 1)')
+function isEven(num){
+  if(num % 2 === 0){
+    hintBox.textContent = "The number is even."
+  } else {
+    hintBox.textContent = "The number is not even."
   }
 }
-
-
-
 
 //function letMeCheat(){
 //create a cheat function that allows users to input chosen difficulty (range),
@@ -301,36 +395,37 @@ function isRandomFib(){
 //}
 
 
+//could probably change the in-game message to return th same way as the color, vs using hot/cold
+//==============Color change functions =================//
+
 let zipped = {};
 
-//builds object based on user inputs.
-
 function colorChangeParam(){
-  let hslVal = ["hsl(0, 100%, 50%)",
-  "hsl(13.06, 100%, 48.63%)",
-  "hsl(19.67, 100%, 47.25%)",
-  "hsl(25.09, 100%, 45.49%)",
-  "hsl(30.13, 100%, 43.73%)",
-  "hsl(35.49, 100%, 41.76%)",
-  "hsl(40.99, 100%, 39.61%)",
-  "hsl(46.25, 100%, 37.65%)",
-  "hsl(52.38, 100%, 35.49%)",
-  "hsl(58.94, 100%, 33.33%)",
-  "hsl(65.83, 100%, 34.31%)",
-  "hsl(71.8, 100%, 35.88%)",
-  "hsl(81.43, 68.14%, 44.31%)",
-  "hsl(92.65, 53.54%, 50.2%)",
-  "hsl(106.61, 53.78%, 55.88%)",
-  "hsl(123.68, 55.34%, 59.61%)",
-  "hsl(138.67, 62.21%, 57.45%)",
-  "hsl(150, 68.7%, 54.9%)",
-  "hsl(159.14, 75.1%, 51.18%)",
-  "hsl(166.58, 100%, 44.71%)",
-  "hsl(170.21, 100%, 45.69%)",
-  "hsl(173.9, 100%, 46.27%)",
-  "hsl(176.75, 100%, 47.06%)",
-  "hsl(179.75, 100%, 47.65%)",
-  "hsl(182.13, 100%, 50.39%)"
+  let hslVal = ["hsl(355.7, 100%, 50.78%)",
+    "hsl(0, 100%, 59.22%)",
+    "hsl(0.96, 100%, 63.14%)",
+    "hsl(0.36, 100%, 67.06%)",
+    "hsl(0.4, 100%, 70.59%)",
+    "hsl(359.55, 100%, 73.92%)",
+    "hsl(358.47, 100%, 76.86%)",
+    "hsl(357.67, 100%, 79.8%)",
+    "hsl(356.59, 97.78%, 82.35%)",
+    "hsl(355.65, 85.19%, 84.12%)",
+    "hsl(353.75, 64.86%, 85.49%)",
+    "hsl(353.33, 40.3%, 86.86%)",
+    "hsl(235.47, 63.86%, 83.73%)",
+    "hsl(236.31, 67.01%, 80.98%)",
+    "hsl(238.44, 69.37%, 78.24%)",
+    "hsl(239.34, 72.8%, 75.49%)",
+    "hsl(240.57, 75.54%, 72.75%)",
+    "hsl(241.98, 79.08%, 70%)",
+    "hsl(243.5, 82.04%, 67.25%)",
+    "hsl(244.71, 84.53%, 64.51%)",
+    "hsl(245.96, 87.69%, 61.76%)",
+    "hsl(247.54, 91.39%, 59.02%)",
+    "hsl(248.61, 93.72%, 56.27%)",
+    "hsl(249.96, 96.62%, 53.53%)",
+    "hsl(251.24, 100%, 50.78%)"
   ] // hsl values
 
   let hslKey = [];
@@ -363,7 +458,7 @@ function colorChangeParam(){
   }
   }
   hslKey.shift(); //removes zero value at [0]
-  zipped = hslKey.reduce((obj, key, index) => ({...obj, [key]: hslVal[index]}), {}); //created key/value by combining two arrays
+  zipped = hslKey.reduce((obj, key, index) => ({...obj, [key]: hslVal[index]}), {}); //creates key/value for color change
   closestFunc(diff(userGuess, random), Object.keys(zipped));
 
   
@@ -381,6 +476,7 @@ function diff(a,b){
 
 let color;
 
+
 //finds closest number in key/value to assign value to color.
 function closestFunc (num, arr) {
   var curr = arr[0];
@@ -393,15 +489,14 @@ function closestFunc (num, arr) {
       }
   }
   color = (curr - random);
-  console.log(curr);
+  console.log("curr =" + curr);
   if (typeof zipped[curr] !== "undefined"){
     color = zipped[curr];
   }
-  console.log(color);
+  console.log("color value =" + color);
   changeBackground();
 }
 
 function changeBackground() {
   document.body.style.background = color;
 }
-
