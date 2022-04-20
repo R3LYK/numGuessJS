@@ -214,6 +214,22 @@ p.guesses {
     border: none;
 }
 
+#guessField {
+    max-width: 140px;
+}
+
+.guessSubmit {
+    background-color: lightgreen;
+}
+
+
+
+p.lowOrHi, p.lastResult, p.hintBox {
+    margin-top: 20px;
+}
+
+
+
 #cheats {
     display: flex;
     justify-content: space-around;
