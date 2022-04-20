@@ -343,6 +343,8 @@ function getHint(){
     }
   } else if(guessCount === 8){
     isEven(random);
+  } else if(guessCount === 9 || guessCount === 10){
+    hintBox.textContent = "9th/10th guess placeholder" //placeholder
   } else { return false; }
   checkResetButton();
 }
